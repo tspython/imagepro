@@ -7,9 +7,12 @@ use clap:: {
     Arg,
     value_parser,
 };
-use std::any::TypeId;
-use std::ffi::OsString;
-use std::path::PathBuf; 
+
+use std:: {
+    any::TypeId,
+    ffi::OsString,
+    path::PathBuf,
+};
 
 pub fn cli() -> Command {
     Command::new("imagepro")
@@ -47,25 +50,25 @@ pub fn cli() -> Command {
                     Arg::new("x")
                         .help("x coordinate")
                         .required(true)
-                        .value_parser(value_parser!(f32))
+                        .value_parser(value_parser!(u32))
                 )
                 .arg(
                     Arg::new("y")
                         .help("y coordinate")
                         .required(true)
-                        .value_parser(value_parser!(f32))
+                        .value_parser(value_parser!(u32))
                 )
                 .arg(
                     Arg::new("width")
                         .help("new width after crop")
                         .required(true)
-                        .value_parser(value_parser!(f32))
+                        .value_parser(value_parser!(u32))
                 )
                 .arg(
                     Arg::new("height")
                         .help("new height after crop")
                         .required(true)
-                        .value_parser(value_parser!(f32))
+                        .value_parser(value_parser!(u32))
                 )
                 .arg(
                     Arg::new("source_path")
@@ -110,4 +113,37 @@ pub fn cli() -> Command {
                         .last(true)
                 )
         )
-} 
+            
+        .subcommand(
+            Command::new("collage")
+                .about("Combine multiple images into a collage")
+                .arg(
+                    Arg::new("width")
+                        .help("Width of the collage")
+                        .required(true)
+                        .value_parser(value_parser!(u32))
+                )
+                .arg(
+                    Arg::new("height")
+                        .help("Height of the collage")
+                        .required(true)
+                        .value_parser(value_parser!(u32))
+                )
+                .arg(
+                    Arg::new("image_paths")
+                        .help("Paths to the images to include in the collage")
+                        .required(true)
+                        //.multiple(true)
+                        //.min_values(1)
+                        .value_delimiter(',')
+                        .value_parser(value_parser!(String))
+                )
+                .arg(
+                    Arg::new("dest_path")
+                        .help("Output path for the collage")
+                        .required(true)
+                        .value_parser(value_parser!(String))
+                        .last(true)
+                )
+        )
+}
