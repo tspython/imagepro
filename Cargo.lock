@@ -116,6 +116,7 @@ dependencies = [
  "crossbeam",
  "image",
  "imageproc",
+ "rayon",
 ]
 
 [[package]]
